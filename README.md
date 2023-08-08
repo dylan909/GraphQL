@@ -285,5 +285,30 @@ type Post {
 
 ### Big picture architecture
 
+**Use cases**
+
+In this section we will be walked through 3 different architectures that includes a grapgQL server.
+
+1. graphql server with connected DB
+2. GraphQL server that is a thin layer in front of a number of third party or legacy systems and integrates them through a single GraphQL API
+3. A hybrid approach of a connected database and third party or legacy systems that can all be accessed through the same GraphQL API
 
 
+**graphql server with connected DB**
+
+This architecture will be the most common for greenfield projects. In the setup, you have a single (web) server that implements the GraphQL specification. When a query arrives at the GraphQL server, the server reads the query’s payload and fetches the required information from the database. This is called resolving the query. It then constructs the response object as described in the official specification and returns it to the client.
+
+It’s important to note that GraphQL is actually transport-layer agnostic. This means it can potentially be used with any available network protocol. So, it is potentially possible to implement a GraphQL server based on TCP, WebSockets, etc.
+
+GraphQL also doesn’t care about the database or the format that is used to store the data. You could use a SQL database like AWS Aurora or a NoSQL database like MongoDB.
+
+
+**Resolver Functions**
+
+As you learned in the previous chapter, the payload of a GraphQL query (or mutation) consists of a set of fields. In the GraphQL server implementation, each of these fields actually corresponds to exactly one function that’s called a resolver. The sole purpose of a resolver function is to fetch the data for its field.
+
+When the server receives a query, it will call all the functions for the fields that are specified in the query’s payload. It thus resolves the query and is able to retrieve the correct data for each field. Once all resolvers returned, the server will package data up in the format that was described by the query and send it back to the client.
+
+![image](https://github.com/dylan909/GraphQL/assets/73878448/8a558b4a-2661-4a56-847e-410a79fdb506)
+
+NOW LETS GET ONTO THE PROJECT 🚀
